@@ -1,9 +1,12 @@
+# AndroidStudio excludes
+.idea/
 *.iml
+
+# Gradle build excludes
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
 /build
+
 /captures
 .externalNativeBuild
+.DS_Store
