@@ -3,11 +3,11 @@ package com.purchases.mvp.presenter
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import com.purchases.mvp.model.Purchases
-import com.purchases.mvp.view.ListPurchasesView
+import com.purchases.mvp.view.PurchasesView
 import io.realm.Realm
 
 
-class ListPurchasesPresenter : MvpBasePresenter<ListPurchasesView>() {
+class PurchasesPresenter : MvpBasePresenter<PurchasesView>() {
     fun createPurchases(realm: Realm, description: String) {
 
         realm.executeTransactionAsync { realm ->

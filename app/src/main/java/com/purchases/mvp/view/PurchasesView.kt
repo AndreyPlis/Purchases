@@ -8,5 +8,5 @@ package com.purchases.mvp.view
 import com.hannesdorfmann.mosby3.mvp.MvpView
 
 
-interface ListPurchasesView : MvpView {
+interface PurchasesView : MvpView {
 }

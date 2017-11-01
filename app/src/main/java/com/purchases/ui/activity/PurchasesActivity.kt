@@ -1,6 +1,7 @@
 package com.purchases.ui.activity
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
@@ -11,20 +12,21 @@ import android.widget.TextView
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.purchases.R
 import com.purchases.mvp.model.Purchases
-import com.purchases.mvp.presenter.ListPurchasesPresenter
-import com.purchases.mvp.view.ListPurchasesView
+
+import com.purchases.mvp.presenter.PurchasesPresenter
+import com.purchases.mvp.view.PurchasesView
 import com.purchases.ui.adapter.PurchasesAdapter
-import com.purchases.ui.dialog.ListPurchasesDialog
+import com.purchases.ui.dialog.PurchasesDialog
 import io.realm.Realm
 
 
-class PurchasesActivity : MvpActivity<ListPurchasesView, ListPurchasesPresenter>(), ListPurchasesView, ListPurchasesDialog.NoticeDialogListener {
+class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), PurchasesView, PurchasesDialog.NoticeDialogListener {
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
 
 
-    override fun createPresenter(): ListPurchasesPresenter {
-        return ListPurchasesPresenter()
+    override fun createPresenter(): PurchasesPresenter {
+        return PurchasesPresenter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,25 +61,27 @@ class PurchasesActivity : MvpActivity<ListPurchasesView, ListPurchasesPresenter>
 
 
     private fun onClickAdd() {
-        val f = ListPurchasesDialog()
+        val f = PurchasesDialog()
         f.show(supportFragmentManager, "dialog")
     }
 
     fun editPurchases(purchase: Purchases) {
-        /*val intent = Intent(this, PurchasesActivity::class.java)
-        startActivity(intent)*/
+        val intent = Intent(this, EditPurchaseActivity::class.java)
+        intent.putExtra("purchases", purchase.id)
+        startActivity(intent)
     }
 
     fun buyPurchases(purchase: Purchases) {
-        /*val intent = Intent(this, PurchasesActivity::class.java)
-        startActivity(intent)*/
+        val intent = Intent(this, BuyPurchaseActivity::class.java)
+        intent.putExtra("purchases", purchase.id)
+        startActivity(intent)
     }
 
-    override fun onDialogNegativeClick(dialog: ListPurchasesDialog) {
+    override fun onDialogNegativeClick(dialog: PurchasesDialog) {
 
     }
 
-    override fun onDialogPositiveClick(dialog: ListPurchasesDialog) {
+    override fun onDialogPositiveClick(dialog: PurchasesDialog) {
         val description = dialog.dialog.findViewById<View>(R.id.textView4) as TextView
         presenter.createPurchases(realm, description.text.toString())
     }

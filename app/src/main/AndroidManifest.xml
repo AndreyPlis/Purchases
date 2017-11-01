@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.PurchasesActivity" />
-        <activity android:name=".ui.activity.PurchaseActivity"></activity>
+        <activity android:name=".ui.activity.EditPurchaseActivity" />
+        <activity android:name=".ui.activity.BuyPurchaseActivity"></activity>
     </application>
 
 </manifest>

@@ -14,19 +14,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun onListPurchases(view: View)
-    {
+    fun onPurchases(view: View) {
         val intent = Intent(this, PurchasesActivity::class.java)
         startActivity(intent)
     }
 
-    fun onPurchases(view: View)
-    {
-
-    }
-
-    fun onFavorites(view: View)
-    {
+    fun onFavorites(view: View) {
 
     }
 }
