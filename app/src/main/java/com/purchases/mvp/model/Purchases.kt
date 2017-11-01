@@ -1,4 +1,4 @@
-package com.purchases.model
+package com.purchases.mvp.model
 
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -21,5 +21,4 @@ open class Purchases(
 
 
 ) : RealmObject() {
-    constructor() : this(System.currentTimeMillis())
 }

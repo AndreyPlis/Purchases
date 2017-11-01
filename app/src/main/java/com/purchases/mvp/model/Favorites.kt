@@ -1,4 +1,4 @@
-package com.purchases.model
+package com.purchases.mvp.model
 
 /**
  * Created by User on 023 23.10.17.

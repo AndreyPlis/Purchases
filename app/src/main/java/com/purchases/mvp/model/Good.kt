@@ -1,4 +1,4 @@
-package com.purchases.model
+package com.purchases.mvp.model
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey

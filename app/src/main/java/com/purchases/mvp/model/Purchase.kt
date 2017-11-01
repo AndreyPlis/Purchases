@@ -1,4 +1,4 @@
-package com.purchases.model
+package com.purchases.mvp.model
 
 /**
  * Created by User on 023 23.10.17.
@@ -11,13 +11,11 @@ open class Purchase(
 
         @PrimaryKey var id: Long = 0,
         var good: Goods? = null,
-        var measure : Measure? = null,
-        var count : Float = 0.0f
+        var measure: Measure? = null,
+        var count: Float = 0.0f
 
 
 ) : RealmObject() {
-
-    constructor() : this(System.currentTimeMillis())
 }
 
 
