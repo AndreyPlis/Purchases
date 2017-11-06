@@ -20,7 +20,7 @@ class PurchaseAdapter(private val activity: EditPurchaseActivity, data: OrderedR
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // holder.name.text = data!![position].name
+        holder.name.text = data!![position].good?.name
         holder.purchase = data!![position]
 
     }

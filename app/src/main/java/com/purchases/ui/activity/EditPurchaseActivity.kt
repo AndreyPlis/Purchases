@@ -1,5 +1,6 @@
 package com.purchases.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.DividerItemDecoration
@@ -8,7 +9,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.purchases.R
-import com.purchases.mvp.model.Purchase
+import com.purchases.mvp.model.Purchases
 import com.purchases.mvp.presenter.PurchasePresenter
 import com.purchases.mvp.view.PurchaseView
 import com.purchases.ui.adapter.PurchaseAdapter
@@ -29,8 +30,10 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_purchase)
 
+        idPurchases = intent.getLongExtra("purchases", 0)
+
         realm = Realm.getDefaultInstance()
-        recyclerView = findViewById<View>(R.id.recycle_view_purchases) as RecyclerView
+        recyclerView = findViewById<View>(R.id.edit_purchase) as RecyclerView
         setUpRecyclerView()
 
 
@@ -49,7 +52,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = PurchaseAdapter(this, realm.where(Purchase::class.java).equalTo("purchases.id", idPurchases).findAll())
+        recyclerView.adapter = PurchaseAdapter(this, realm.where(Purchases::class.java).equalTo("id", idPurchases).findFirst()!!.purchase)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
@@ -60,6 +63,18 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     }
 
     private fun onClickAdd() {
+        val intent = Intent(this, SearchActivity::class.java)
+        startActivity(intent)
+        /*realm.executeTransactionAsync { realm ->
+            var good = realm.createObject(Goods::class.java, "gfhfhfg")
+            var purchase = realm.createObject(Purchase::class.java, System.currentTimeMillis())
+            purchase.count = 1.0f
+            purchase.good = good
+
+            realm.where(Purchases::class.java).equalTo("id", idPurchases)
+                    .findFirst()!!
+                    .purchase.add(purchase)
+        }*/
 
     }
 

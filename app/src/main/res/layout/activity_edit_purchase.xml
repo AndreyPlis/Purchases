@@ -20,6 +20,7 @@
         app:srcCompat="@android:drawable/btn_star_big_on" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/edit_purchase"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

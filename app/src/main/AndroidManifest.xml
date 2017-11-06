@@ -19,7 +19,20 @@
         </activity>
         <activity android:name=".ui.activity.PurchasesActivity" />
         <activity android:name=".ui.activity.EditPurchaseActivity" />
-        <activity android:name=".ui.activity.BuyPurchaseActivity"></activity>
+        <activity android:name=".ui.activity.BuyPurchaseActivity" />
+        <activity android:name=".ui.activity.FindGoodActivity" />
+        <activity
+            android:name=".ui.activity.SearchActivity"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
