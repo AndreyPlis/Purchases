@@ -11,29 +11,14 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.View
-import com.github.wrdlbrnft.sortedlistadapter.SortedListAdapter
 import com.purchases.R
 import com.purchases.mvp.model.Good
 import com.purchases.ui.adapter.SearchAdapter
 import io.realm.Realm
 
 
-class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, SortedListAdapter.Callback {
-    override fun onQueryTextChange(newText: String): Boolean {
-        if (!newText.isEmpty())
-            handleQuery(newText)
-        return false
-    }
+class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
-    override fun onEditFinished() {
-    }
-
-    override fun onEditStarted() {
-    }
-
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-    }
 
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
@@ -61,18 +46,26 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sort
         val searchView = menu.findItem(R.id.search).actionView as SearchView
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         searchView.setOnQueryTextListener(this)
-        super.onCreateOptionsMenu(menu)
         return true
     }
 
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        val adapter = SearchAdapter(this, COMPARATOR)
+        val adapter = SearchAdapter()
         recyclerView.adapter = adapter
-        adapter.addCallback(this)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        if (!newText.isEmpty())
+            handleQuery(newText)
+        return false
+    }
+
+    override fun onQueryTextSubmit(query: String): Boolean {
+        return false
     }
 
     private fun handleIntent(intent: Intent?) {
@@ -85,22 +78,17 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sort
     private fun handleQuery(query: String) {
         val adapter = recyclerView.adapter as SearchAdapter
         val collection = realm.where(Good::class.java).equalTo("name", query).findAll()
-        val collection2 = collection.toMutableList()
-        if (collection.isLoaded && collection2.isEmpty())
-            collection2.add(Good(query))
-        adapter.edit()
-                .removeAll()
-                .add(collection2)
-                .commit()
+
+        val goods: MutableList<Good> = ArrayList()
+        if (collection.isLoaded) {
+            goods.addAll(collection)
+        }
+
+        if (goods.isEmpty())
+            goods.add(Good(query))
+
+        adapter.goods.clear()
+        adapter.goods.addAll(goods)
+        adapter.notifyDataSetChanged()
     }
-
-
-    private val COMPARATOR = SortedListAdapter.ComparatorBuilder<Good>()
-            .setOrderForModel(Good::class.java, object : Comparator<Good> {
-                override fun compare(a: Good, b: Good): Int {
-                    return Integer.signum(0)
-                }
-            })
-            .build()
-
 }
