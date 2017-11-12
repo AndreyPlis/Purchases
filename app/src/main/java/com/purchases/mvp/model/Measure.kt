@@ -8,8 +8,5 @@ import io.realm.annotations.PrimaryKey
  */
 
 
-open class Measure(
-        @PrimaryKey var name: String = ""
-
-) : RealmObject() {
+open class Measure(@PrimaryKey var name: String = "") : RealmObject() {
 }

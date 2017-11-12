@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey
 open class Purchase(
 
         @PrimaryKey var id: Long = 0,
-        var good: Goods? = null,
+        var good: Good? = null,
         var measure: Measure? = null,
         var count: Float = 0.0f
 
