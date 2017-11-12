@@ -13,11 +13,13 @@ import android.view.Menu
 import android.view.View
 import com.purchases.R
 import com.purchases.mvp.model.Good
+import com.purchases.mvp.model.Measure
 import com.purchases.ui.adapter.SearchAdapter
+import com.purchases.ui.dialog.GoodsDialog
 import io.realm.Realm
 
 
-class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, SearchAdapter.Listener, GoodsDialog.NoticeDialogListener {
 
 
     lateinit var realm: Realm
@@ -52,7 +54,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        val adapter = SearchAdapter()
+        val adapter = SearchAdapter(this)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -77,7 +79,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun handleQuery(query: String) {
         val adapter = recyclerView.adapter as SearchAdapter
-        val collection = realm.where(Good::class.java).equalTo("name", query).findAll()
+        val collection = realm.where(Good::class.java).contains("name", query).findAll()
 
         val goods: MutableList<Good> = ArrayList()
         if (collection.isLoaded) {
@@ -90,5 +92,26 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         adapter.goods.clear()
         adapter.goods.addAll(goods)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onClicked(good: Good) {
+        val f = GoodsDialog()
+        f.realm = realm
+        f.show(supportFragmentManager, "dialog")
+    }
+
+    override fun onDialogPositiveClick(good: Good, count: Float, measure: Measure) {
+        realm.executeTransactionAsync { realm ->
+
+            var good = realm.where(Good::class.java).equalTo("name",good.name).findFirst()
+            if(good == null)
+            {
+                good = realm.createObject(Good::class.java, good?.name)
+            }
+
+        }
+    }
+
+    override fun onDialogNegativeClick() {
     }
 }

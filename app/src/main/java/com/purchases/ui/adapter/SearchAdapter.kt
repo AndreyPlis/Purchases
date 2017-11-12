@@ -9,9 +9,15 @@ import com.purchases.R
 import com.purchases.mvp.model.Good
 
 
-class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
+class SearchAdapter(listener: Listener) : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
+    private val mListener: Listener = listener
 
     var goods: MutableList<Good> = ArrayList()
+
+    interface Listener {
+        fun onClicked(good: Good)
+    }
+
 
     override fun getItemCount(): Int {
         return goods.size
@@ -39,6 +45,7 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
         }
 
         override fun onClick(view: View) {
+            mListener.onClicked(good)
         }
     }
 }
