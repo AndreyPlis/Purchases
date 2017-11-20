@@ -1,5 +1,6 @@
 package com.purchases.ui.activity
 
+import android.app.Activity
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
@@ -97,19 +98,18 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sear
     override fun onClicked(good: Good) {
         val f = GoodsDialog()
         f.realm = realm
+        f.good = good
         f.show(supportFragmentManager, "dialog")
     }
 
     override fun onDialogPositiveClick(good: Good, count: Float, measure: Measure) {
-        realm.executeTransactionAsync { realm ->
-
-            var good = realm.where(Good::class.java).equalTo("name",good.name).findFirst()
-            if(good == null)
-            {
-                good = realm.createObject(Good::class.java, good?.name)
-            }
-
-        }
+        val intent = Intent(this, EditPurchaseActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+        intent.putExtra("goods", good.name)
+        intent.putExtra("count", count)
+        intent.putExtra("measure", measure.name)
+        setResult(Activity.RESULT_OK,intent)
+        finish()
     }
 
     override fun onDialogNegativeClick() {

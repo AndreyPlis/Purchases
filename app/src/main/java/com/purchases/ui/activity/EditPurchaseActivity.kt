@@ -49,6 +49,11 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+
+    }
+
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
@@ -62,9 +67,22 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         realm.close()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        var good = data!!.getStringArrayExtra("good")
+        /*realm.executeTransactionAsync { realm ->
+
+         var good = realm.where(Good::class.java).equalTo("name",good.name).findFirst()
+         if(good == null)
+         {
+             good = realm.createObject(Good::class.java, good?.name)
+         }
+
+     }*/
+    }
+
     private fun onClickAdd() {
         val intent = Intent(this, SearchActivity::class.java)
-        startActivity(intent)
+        startActivityForResult(intent,1)
         /*realm.executeTransactionAsync { realm ->
             var good = realm.createObject(Goods::class.java, "gfhfhfg")
             var purchase = realm.createObject(Purchase::class.java, System.currentTimeMillis())
