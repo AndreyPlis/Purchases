@@ -35,12 +35,10 @@ class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
         }
     }
 
-    fun updatePurchase(realm: Realm, item: Purchase) {
-        val id = item.id
+    fun updatePurchase(realm: Realm, item: Purchase, count: Float, measure: Measure) {
         realm.executeTransactionAsync { realm ->
-            realm.where(Purchases::class.java).equalTo("id", id)
-                    .findFirst()!!
-                    .deleteFromRealm()
+            item.count = count
+            item.measure = measure
         }
     }
 }

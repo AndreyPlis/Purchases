@@ -7,6 +7,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.view.View
+import android.widget.EditText
 import android.widget.NumberPicker
 import com.purchases.R
 import com.purchases.mvp.model.Good
@@ -34,6 +35,7 @@ class GoodsDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val customView = activity.layoutInflater.inflate(R.layout.dialog_goods, null)
         val picker = customView.findViewById<View>(R.id.numberPicker) as NumberPicker
+        val text = customView.findViewById<View>(R.id.editText3) as EditText
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(good?.name)
         builder.setView(customView)
@@ -57,7 +59,7 @@ class GoodsDialog : DialogFragment() {
 
 
         builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, id ->
-            mListener.onDialogPositiveClick(good!!, 1.1f, collection[picker.value]!!)
+            mListener.onDialogPositiveClick(good!!, text.text.toString().toFloat(), collection[picker.value]!!)
         })
         builder.setNegativeButton(android.R.string.cancel, DialogInterface.OnClickListener { dialog, id -> mListener.onDialogNegativeClick() })
         return builder.create()
