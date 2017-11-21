@@ -9,7 +9,6 @@ import io.realm.Realm
 
 class PurchasesPresenter : MvpBasePresenter<PurchasesView>() {
     fun createPurchases(realm: Realm, description: String) {
-
         realm.executeTransactionAsync { realm ->
             var purchases = realm.createObject(Purchases::class.java, System.currentTimeMillis())
             purchases.name = description
