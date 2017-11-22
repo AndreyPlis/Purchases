@@ -12,6 +12,7 @@ import android.widget.NumberPicker
 import com.purchases.R
 import com.purchases.mvp.model.Good
 import com.purchases.mvp.model.Measure
+import com.purchases.mvp.model.Purchase
 import io.realm.Realm
 
 class GoodsDialog : DialogFragment() {
@@ -19,9 +20,13 @@ class GoodsDialog : DialogFragment() {
     private lateinit var mListener: NoticeDialogListener
     var realm: Realm? = null
     var good: Good? = null
+    var count: Float? = null
+    var measure: String? = null
+
+    var purchase: Purchase? = null
 
     interface NoticeDialogListener {
-        fun onDialogPositiveClick(good: Good, count: Float, measure: Measure)
+        fun onDialogPositiveClick(good: Good, purchase: Purchase?, count: Float, measure: Measure)
 
         fun onDialogNegativeClick()
     }
@@ -39,14 +44,21 @@ class GoodsDialog : DialogFragment() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(good?.name)
         builder.setView(customView)
+        text.text.clear()
+        text.text.append(count.toString())
 
 
         val collection = realm?.where(Measure::class.java)!!.findAll()
 
         val measures: MutableList<String> = ArrayList()
 
+        var i = 0
+        var k = 0
         for (measure in collection) {
             measures.add(measure.name)
+            if (measure.name.equals(this.measure))
+                k = i
+            i++
         }
 
         picker.minValue = 0
@@ -56,12 +68,14 @@ class GoodsDialog : DialogFragment() {
         picker.maxValue = max
         picker.displayedValues = measures.toTypedArray()
         picker.wrapSelectorWheel = false
+        picker.value = k
 
 
         builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, id ->
-            mListener.onDialogPositiveClick(good!!, text.text.toString().toFloat(), collection[picker.value]!!)
+            mListener.onDialogPositiveClick(good!!, purchase, text.text.toString().toFloat(), collection[picker.value]!!)
         })
         builder.setNegativeButton(android.R.string.cancel, DialogInterface.OnClickListener { dialog, id -> mListener.onDialogNegativeClick() })
         return builder.create()
     }
+
 }

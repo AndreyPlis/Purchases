@@ -36,9 +36,12 @@ class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
     }
 
     fun updatePurchase(realm: Realm, item: Purchase, count: Float, measure: Measure) {
+        var id = item.id
+        var name = measure.name
         realm.executeTransactionAsync { realm ->
-            item.count = count
-            item.measure = measure
+            var purchase = realm.where(Purchase::class.java).equalTo("id", id).findFirst()
+            purchase!!.count = count
+            purchase.measure = realm.where(Measure::class.java).equalTo("name", name).findFirst()
         }
     }
 }

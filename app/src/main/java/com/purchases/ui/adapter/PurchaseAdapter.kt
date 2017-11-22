@@ -36,7 +36,7 @@ class PurchaseAdapter(private val activity: EditPurchaseActivity, data: OrderedR
         }
 
         override fun onLongClick(v: View): Boolean {
-
+            activity.editPurchase(purchase)
             return true
         }
 

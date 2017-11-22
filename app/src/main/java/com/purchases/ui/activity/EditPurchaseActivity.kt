@@ -9,15 +9,19 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.hannesdorfmann.mosby3.mvp.MvpActivity
 import com.purchases.R
+import com.purchases.mvp.model.Good
+import com.purchases.mvp.model.Measure
 import com.purchases.mvp.model.Purchase
 import com.purchases.mvp.model.Purchases
 import com.purchases.mvp.presenter.PurchasePresenter
 import com.purchases.mvp.view.PurchaseView
 import com.purchases.ui.adapter.PurchaseAdapter
+import com.purchases.ui.dialog.GoodsDialog
 import io.realm.Realm
 
 
-class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), PurchaseView {
+class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), PurchaseView, GoodsDialog.NoticeDialogListener {
+
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
     private var idPurchases: Long = 0
@@ -81,7 +85,13 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     }
 
     fun editPurchase(purchase: Purchase) {
-
+        val f = GoodsDialog()
+        f.realm = realm
+        f.good = purchase.good
+        f.count = purchase.count
+        f.measure = purchase.measure!!.name
+        f.purchase = purchase
+        f.show(supportFragmentManager, "dialog")
     }
 
     private fun onClickAdd() {
@@ -91,5 +101,12 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
 
     private fun onClickAddFavorite() {
 
+    }
+
+    override fun onDialogPositiveClick(good: Good, purchase: Purchase?, count: Float, measure: Measure) {
+        presenter.updatePurchase(realm, purchase!!, count, measure)
+    }
+
+    override fun onDialogNegativeClick() {
     }
 }

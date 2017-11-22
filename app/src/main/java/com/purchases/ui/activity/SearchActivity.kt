@@ -15,6 +15,7 @@ import android.view.View
 import com.purchases.R
 import com.purchases.mvp.model.Good
 import com.purchases.mvp.model.Measure
+import com.purchases.mvp.model.Purchase
 import com.purchases.ui.adapter.SearchAdapter
 import com.purchases.ui.dialog.GoodsDialog
 import io.realm.Realm
@@ -102,13 +103,13 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sear
         f.show(supportFragmentManager, "dialog")
     }
 
-    override fun onDialogPositiveClick(good: Good, count: Float, measure: Measure) {
+    override fun onDialogPositiveClick(good: Good, purchase: Purchase?, count: Float, measure: Measure) {
         val intent = Intent(this, EditPurchaseActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         intent.putExtra("goods", good.name)
         intent.putExtra("count", count)
         intent.putExtra("measure", measure.name)
-        setResult(Activity.RESULT_OK,intent)
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
