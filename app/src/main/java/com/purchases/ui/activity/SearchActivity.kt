@@ -19,6 +19,7 @@ import com.purchases.mvp.model.Purchase
 import com.purchases.ui.adapter.SearchAdapter
 import com.purchases.ui.dialog.GoodsDialog
 import io.realm.Realm
+import io.realm.RealmResults
 
 
 class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, SearchAdapter.Listener, GoodsDialog.NoticeDialogListener {
@@ -58,6 +59,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sear
         recyclerView.layoutManager = mLayoutManager
         val adapter = SearchAdapter(this)
         recyclerView.adapter = adapter
+        handleQuery("")
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
@@ -81,7 +83,12 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sear
 
     private fun handleQuery(query: String) {
         val adapter = recyclerView.adapter as SearchAdapter
-        val collection = realm.where(Good::class.java).contains("name", query).findAll()
+        val collection: RealmResults<Good>
+        if (query.isEmpty()) {
+            collection = realm.where(Good::class.java).findAll()
+        } else {
+            collection = realm.where(Good::class.java).contains("name", query).findAll()
+        }
 
         val goods: MutableList<Good> = ArrayList()
         if (collection.isLoaded) {
