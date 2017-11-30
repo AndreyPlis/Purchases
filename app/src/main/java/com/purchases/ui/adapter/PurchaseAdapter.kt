@@ -15,19 +15,21 @@ class PurchaseAdapter(private val activity: EditPurchaseActivity, data: OrderedR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_purchases, parent, false)
+                .inflate(R.layout.item_purchase, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = data!![position].good?.name
+        holder.count.text = (data!![position].count.toString() +" " + data!![position].measure?.name)
         holder.purchase = data!![position]
 
     }
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener, View.OnClickListener {
 
-        var name: TextView = view.findViewById(R.id.textView)
+        var name: TextView = view.findViewById(R.id.textView3)
+        var count: TextView = view.findViewById(R.id.textView5)
         lateinit var purchase: Purchase
 
         init {
