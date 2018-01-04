@@ -100,7 +100,7 @@ class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), Purc
     }
 
     override fun onDialogPositiveClick(dialog: PurchasesDialog) {
-        val description = dialog.dialog.findViewById<View>(R.id.textView4) as TextView
+        val description = dialog.dialog.findViewById<View>(R.id.editText2) as TextView
         presenter.createPurchases(realm, description.text.toString())
     }
 }
