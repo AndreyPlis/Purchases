@@ -1,25 +1,16 @@
 package com.purchases.ui.activity
 
-import android.app.Activity
-import android.app.SearchManager
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.view.Menu
-import android.view.View
+import android.app.*
+import android.content.*
+import android.os.*
+import android.support.v7.app.*
+import android.support.v7.widget.*
+import android.view.*
 import com.purchases.R
-import com.purchases.mvp.model.Good
-import com.purchases.mvp.model.Measure
-import com.purchases.mvp.model.Purchase
-import com.purchases.ui.adapter.SearchAdapter
-import com.purchases.ui.dialog.GoodsDialog
-import io.realm.Realm
-import io.realm.RealmResults
+import com.purchases.mvp.model.*
+import com.purchases.ui.adapter.*
+import com.purchases.ui.dialog.*
+import io.realm.*
 
 
 class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, SearchAdapter.Listener, GoodsDialog.NoticeDialogListener {
@@ -95,7 +86,7 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sear
             goods.addAll(collection)
         }
 
-        if (goods.isEmpty())
+        if (goods.isEmpty() && !query.isEmpty())
             goods.add(Good(query))
 
         adapter.goods.clear()
