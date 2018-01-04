@@ -1,23 +1,20 @@
 package com.purchases.ui.activity
 
 
-import android.content.Intent
-import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.widget.TextView
-import com.hannesdorfmann.mosby3.mvp.MvpActivity
+import android.content.*
+import android.os.*
+import android.support.v7.widget.*
+import android.view.*
+import android.widget.*
+import com.hannesdorfmann.mosby3.mvp.*
 import com.purchases.R
+import com.purchases.mvp.model.*
 import com.purchases.mvp.model.Purchases
-
-import com.purchases.mvp.presenter.PurchasesPresenter
-import com.purchases.mvp.view.PurchasesView
-import com.purchases.ui.adapter.PurchasesAdapter
-import com.purchases.ui.dialog.PurchasesDialog
-import io.realm.Realm
+import com.purchases.mvp.presenter.*
+import com.purchases.mvp.view.*
+import com.purchases.ui.adapter.*
+import com.purchases.ui.dialog.*
+import io.realm.*
 
 
 class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), PurchasesView, PurchasesDialog.NoticeDialogListener {
@@ -75,6 +72,27 @@ class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), Purc
         val intent = Intent(this, BuyPurchaseActivity::class.java)
         intent.putExtra("purchases", purchase.id)
         startActivity(intent)
+    }
+
+    fun addToFavorite(purchase: Purchases) {
+        val id = purchase.id
+        realm.executeTransactionAsync { realm ->
+            val ps = realm.where(Purchases::class.java).equalTo("id",id).findFirst()
+            var favorites = realm.createObject(Favorites::class.java, System.currentTimeMillis())
+            favorites.name = ps!!.name
+            favorites.dateUpdate = ps.dateUpdate
+            val pur : RealmList<Purchase> = RealmList()
+            var k = 0
+            for(tpurchase in ps.purchase)
+            {
+                val p = realm.createObject(Purchase::class.java,System.currentTimeMillis() + k++)
+                p.count = tpurchase.count
+                p.good = tpurchase.good
+                p.measure = tpurchase.measure
+                pur.add(p)
+            }
+            favorites.purchase = pur
+        }
     }
 
     override fun onDialogNegativeClick(dialog: PurchasesDialog) {

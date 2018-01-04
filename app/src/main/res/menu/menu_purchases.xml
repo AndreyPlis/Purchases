@@ -5,6 +5,9 @@
         android:id="@+id/menuBuy"
         android:title="Покупать" />
     <item
+        android:id="@+id/menuFavorite"
+        android:title="Добавить в избранное" />
+    <item
         android:id="@+id/menyDelete"
         android:title="Удалить" />
 </menu>

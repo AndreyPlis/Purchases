@@ -1,17 +1,13 @@
 package com.purchases.ui.adapter
 
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.widget.*
+import android.view.*
+import android.widget.*
 import android.widget.PopupMenu
-import android.widget.TextView
 import com.purchases.R
 import com.purchases.mvp.model.Purchases
-import com.purchases.ui.activity.PurchasesActivity
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
+import com.purchases.ui.activity.*
+import io.realm.*
 
 
 class PurchasesAdapter(private val activity: PurchasesActivity, data: OrderedRealmCollection<Purchases>) : RealmRecyclerViewAdapter<Purchases, PurchasesAdapter.MyViewHolder>(data, true) {
@@ -33,6 +29,9 @@ class PurchasesAdapter(private val activity: PurchasesActivity, data: OrderedRea
             when (item!!.itemId) {
                 R.id.menuBuy -> {
                     activity.buyPurchases(purchases)
+                }
+                R.id.menuFavorite -> {
+                    activity.addToFavorite(purchases)
                 }
                 R.id.menyDelete -> {
                     activity.presenter.deletePurchases(activity.realm, purchases)

@@ -10,14 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.PurchasesActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.PurchasesActivity" />
         <activity android:name=".ui.activity.EditPurchaseActivity" />
         <activity android:name=".ui.activity.BuyPurchaseActivity" />
         <activity
@@ -30,8 +29,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".ui.activity.FavoriteActivity"></activity>
     </application>
 
 </manifest>

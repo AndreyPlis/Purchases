@@ -1,23 +1,18 @@
 package com.purchases.ui.activity
 
-import android.content.Intent
-import android.os.Bundle
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.View
-import com.hannesdorfmann.mosby3.mvp.MvpActivity
+import android.content.*
+import android.os.*
+import android.support.v7.widget.*
+import android.view.*
+import com.hannesdorfmann.mosby3.mvp.*
 import com.purchases.R
-import com.purchases.mvp.model.Good
-import com.purchases.mvp.model.Measure
-import com.purchases.mvp.model.Purchase
+import com.purchases.mvp.model.*
 import com.purchases.mvp.model.Purchases
-import com.purchases.mvp.presenter.PurchasePresenter
-import com.purchases.mvp.view.PurchaseView
-import com.purchases.ui.adapter.PurchaseAdapter
-import com.purchases.ui.dialog.GoodsDialog
-import io.realm.Realm
+import com.purchases.mvp.presenter.*
+import com.purchases.mvp.view.*
+import com.purchases.ui.adapter.*
+import com.purchases.ui.dialog.*
+import io.realm.*
 
 
 class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), PurchaseView, GoodsDialog.NoticeDialogListener {
@@ -100,7 +95,9 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     }
 
     private fun onClickAddFavorite() {
-
+        val intent = Intent(this, FavoriteActivity::class.java)
+        intent.putExtra("purchases", idPurchases)
+        startActivity(intent)
     }
 
     override fun onDialogPositiveClick(good: Good, purchase: Purchase?, count: Float, measure: Measure) {
