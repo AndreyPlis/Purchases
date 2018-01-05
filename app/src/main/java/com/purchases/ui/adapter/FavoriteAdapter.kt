@@ -8,9 +8,7 @@ import com.purchases.mvp.model.*
 import com.purchases.ui.activity.*
 import io.realm.*
 
-/**
- * Created by User on 004 04.01.18.
- */
+
 class FavoriteAdapter(private val activity: FavoriteActivity, data: OrderedRealmCollection<FavoriteList>) : RealmRecyclerViewAdapter<FavoriteList, FavoriteAdapter.MyViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -26,7 +24,7 @@ class FavoriteAdapter(private val activity: FavoriteActivity, data: OrderedRealm
     }
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener, View.OnClickListener {
-
+        var enabled = true
         var name: TextView = view.findViewById(R.id.textView)
         lateinit var purchases: FavoriteList
 
@@ -36,12 +34,16 @@ class FavoriteAdapter(private val activity: FavoriteActivity, data: OrderedRealm
         }
 
         override fun onLongClick(v: View): Boolean {
-            activity.presenter.deleteFavorite(activity.realm,purchases.id)
+            activity.presenter.deleteFavorite(activity.realm, purchases.id)
             return true
         }
 
         override fun onClick(view: View) {
-            activity.presenter.addPurchase(activity.realm,activity.idPurchases, purchases.id)
+            if (enabled) {
+                activity.presenter.addPurchase(activity.realm, activity.idPurchases, purchases.id)
+                enabled = false
+                name.isEnabled = enabled
+            }
         }
     }
 }

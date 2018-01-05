@@ -80,7 +80,6 @@ class PurchaseListActivity : MvpActivity<PurchaseListView, PurchaseListPresenter
             val ps = realm.where(PurchaseList::class.java).equalTo("id", id).findFirst()
             var favorites = realm.createObject(FavoriteList::class.java, UUID.randomUUID().toString())
             favorites.name = ps!!.name
-            favorites.dateUpdate = ps.dateUpdate
             val pur: RealmList<Purchase> = RealmList()
             for (tpurchase in ps.purchase) {
                 val p = realm.createObject(Purchase::class.java, UUID.randomUUID().toString())

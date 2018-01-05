@@ -9,9 +9,6 @@ open class PurchaseList(
 
         @PrimaryKey var id: String = UUID.randomUUID().toString(),
         var name: String = "",
-
-        var dateUpdate: Date = Date(),
-
         var purchase: RealmList<Purchase> = RealmList()
 
 
