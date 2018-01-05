@@ -18,7 +18,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
 
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
-    private var idPurchases: Long = 0
+    private var idPurchases: String = ""
 
 
     override fun createPresenter(): PurchasePresenter {
@@ -29,7 +29,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_purchase)
 
-        idPurchases = intent.getLongExtra("purchaseList", 0)
+        idPurchases = intent.getStringExtra("purchaseList")
 
         realm = Realm.getDefaultInstance()
         recyclerView = findViewById<View>(R.id.edit_purchase) as RecyclerView

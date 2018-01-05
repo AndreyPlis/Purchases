@@ -7,7 +7,7 @@ import java.util.*
 
 open class PurchaseList(
 
-        @PrimaryKey var id: Long = 0,
+        @PrimaryKey var id: String = UUID.randomUUID().toString(),
         var name: String = "",
 
         var dateUpdate: Date = Date(),
@@ -15,5 +15,4 @@ open class PurchaseList(
         var purchase: RealmList<Purchase> = RealmList()
 
 
-) : RealmObject() {
-}
+) : RealmObject()

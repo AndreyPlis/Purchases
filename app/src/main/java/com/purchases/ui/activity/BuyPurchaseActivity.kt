@@ -13,10 +13,9 @@ import io.realm.*
 
 class BuyPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), PurchaseView {
 
-
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
-    private var idPurchases: Long = 0
+    private var idPurchases: String = ""
 
 
     override fun createPresenter(): PurchasePresenter {
@@ -27,7 +26,7 @@ class BuyPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Purc
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buy_purchase)
 
-        idPurchases = intent.getLongExtra("purchaseList", 0)
+        idPurchases = intent.getStringExtra("purchaseList")
 
         realm = Realm.getDefaultInstance()
         recyclerView = findViewById<View>(R.id.buy_purchase) as RecyclerView

@@ -14,6 +14,7 @@ import com.purchases.mvp.view.*
 import com.purchases.ui.adapter.*
 import com.purchases.ui.dialog.*
 import io.realm.*
+import java.util.*
 
 
 class PurchaseListActivity : MvpActivity<PurchaseListView, PurchaseListPresenter>(), PurchaseListView, PurchaseListDialog.NoticeDialogListener {
@@ -77,13 +78,12 @@ class PurchaseListActivity : MvpActivity<PurchaseListView, PurchaseListPresenter
         val id = purchase.id
         realm.executeTransactionAsync { realm ->
             val ps = realm.where(PurchaseList::class.java).equalTo("id", id).findFirst()
-            var favorites = realm.createObject(FavoriteList::class.java, System.currentTimeMillis())
+            var favorites = realm.createObject(FavoriteList::class.java, UUID.randomUUID().toString())
             favorites.name = ps!!.name
             favorites.dateUpdate = ps.dateUpdate
             val pur: RealmList<Purchase> = RealmList()
-            var k = 0
             for (tpurchase in ps.purchase) {
-                val p = realm.createObject(Purchase::class.java, System.currentTimeMillis() + k++)
+                val p = realm.createObject(Purchase::class.java, UUID.randomUUID().toString())
                 p.count = tpurchase.count
                 p.good = tpurchase.good
                 p.measure = tpurchase.measure

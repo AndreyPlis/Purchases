@@ -7,7 +7,7 @@ import java.util.*
 
 open class FavoriteList(
 
-        @PrimaryKey var id: Long = 0,
+        @PrimaryKey var id: String = UUID.randomUUID().toString(),
         var name: String = "",
 
         var dateUpdate: Date = Date(),
@@ -15,6 +15,4 @@ open class FavoriteList(
         var purchase: RealmList<Purchase> = RealmList()
 
 
-) : RealmObject() {
-    constructor() : this(System.currentTimeMillis())
-}
+) : RealmObject()

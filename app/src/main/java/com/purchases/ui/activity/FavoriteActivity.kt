@@ -15,7 +15,7 @@ class FavoriteActivity : MvpActivity<PurchaseListView, FavoriteListPresenter>(),
 
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
-    var idPurchases: Long = 0
+    var idPurchases: String = ""
 
     override fun createPresenter(): FavoriteListPresenter {
         return FavoriteListPresenter()
@@ -25,7 +25,7 @@ class FavoriteActivity : MvpActivity<PurchaseListView, FavoriteListPresenter>(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
 
-        idPurchases = intent.getLongExtra("purchaseList", 0)
+        idPurchases = intent.getStringExtra("purchaseList")
 
         realm = Realm.getDefaultInstance()
         recyclerView = findViewById<View>(R.id.recyclerFavorite) as RecyclerView
