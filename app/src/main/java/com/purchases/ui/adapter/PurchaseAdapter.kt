@@ -21,7 +21,7 @@ class PurchaseAdapter(private val activity: EditPurchaseActivity, data: OrderedR
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = data!![position].good?.name
-        holder.count.text = (data!![position].count.toString() +" " + data!![position].measure?.name)
+        holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
         holder.purchase = data!![position]
 
     }

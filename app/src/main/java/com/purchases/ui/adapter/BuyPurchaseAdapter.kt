@@ -8,9 +8,7 @@ import com.purchases.mvp.model.*
 import com.purchases.ui.activity.*
 import io.realm.*
 
-/**
- * Created by User on 004 04.01.18.
- */
+
 class BuyPurchaseAdapter(private val activity: BuyPurchaseActivity, data: OrderedRealmCollection<Purchase>) : RealmRecyclerViewAdapter<Purchase, BuyPurchaseAdapter.MyViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -21,7 +19,7 @@ class BuyPurchaseAdapter(private val activity: BuyPurchaseActivity, data: Ordere
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = data!![position].good?.name
-        holder.count.text = (data!![position].count.toString() +" " + data!![position].measure?.name)
+        holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
         holder.purchase = data!![position]
 
     }

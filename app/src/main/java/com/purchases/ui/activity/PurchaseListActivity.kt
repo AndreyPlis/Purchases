@@ -9,7 +9,6 @@ import android.widget.*
 import com.hannesdorfmann.mosby3.mvp.*
 import com.purchases.R
 import com.purchases.mvp.model.*
-import com.purchases.mvp.model.Purchases
 import com.purchases.mvp.presenter.*
 import com.purchases.mvp.view.*
 import com.purchases.ui.adapter.*
@@ -17,13 +16,13 @@ import com.purchases.ui.dialog.*
 import io.realm.*
 
 
-class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), PurchasesView, PurchasesDialog.NoticeDialogListener {
+class PurchaseListActivity : MvpActivity<PurchaseListView, PurchaseListPresenter>(), PurchaseListView, PurchaseListDialog.NoticeDialogListener {
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
 
 
-    override fun createPresenter(): PurchasesPresenter {
-        return PurchasesPresenter()
+    override fun createPresenter(): PurchaseListPresenter {
+        return PurchaseListPresenter()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +45,7 @@ class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), Purc
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = PurchasesAdapter(this, realm.where(Purchases::class.java).findAll())
+        recyclerView.adapter = PurchaseListAdapter(this, realm.where(PurchaseList::class.java).findAll())
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
@@ -58,34 +57,33 @@ class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), Purc
 
 
     private fun onClickAdd() {
-        val f = PurchasesDialog()
+        val f = PurchaseListDialog()
         f.show(supportFragmentManager, "dialog")
     }
 
-    fun editPurchases(purchase: Purchases) {
+    fun editPurchases(purchase: PurchaseList) {
         val intent = Intent(this, EditPurchaseActivity::class.java)
-        intent.putExtra("purchases", purchase.id)
+        intent.putExtra("purchaseList", purchase.id)
         startActivity(intent)
     }
 
-    fun buyPurchases(purchase: Purchases) {
+    fun buyPurchases(purchase: PurchaseList) {
         val intent = Intent(this, BuyPurchaseActivity::class.java)
-        intent.putExtra("purchases", purchase.id)
+        intent.putExtra("purchaseList", purchase.id)
         startActivity(intent)
     }
 
-    fun addToFavorite(purchase: Purchases) {
+    fun addToFavorite(purchase: PurchaseList) {
         val id = purchase.id
         realm.executeTransactionAsync { realm ->
-            val ps = realm.where(Purchases::class.java).equalTo("id",id).findFirst()
-            var favorites = realm.createObject(Favorites::class.java, System.currentTimeMillis())
+            val ps = realm.where(PurchaseList::class.java).equalTo("id", id).findFirst()
+            var favorites = realm.createObject(FavoriteList::class.java, System.currentTimeMillis())
             favorites.name = ps!!.name
             favorites.dateUpdate = ps.dateUpdate
-            val pur : RealmList<Purchase> = RealmList()
+            val pur: RealmList<Purchase> = RealmList()
             var k = 0
-            for(tpurchase in ps.purchase)
-            {
-                val p = realm.createObject(Purchase::class.java,System.currentTimeMillis() + k++)
+            for (tpurchase in ps.purchase) {
+                val p = realm.createObject(Purchase::class.java, System.currentTimeMillis() + k++)
                 p.count = tpurchase.count
                 p.good = tpurchase.good
                 p.measure = tpurchase.measure
@@ -95,11 +93,11 @@ class PurchasesActivity : MvpActivity<PurchasesView, PurchasesPresenter>(), Purc
         }
     }
 
-    override fun onDialogNegativeClick(dialog: PurchasesDialog) {
+    override fun onDialogNegativeClick(dialog: PurchaseListDialog) {
 
     }
 
-    override fun onDialogPositiveClick(dialog: PurchasesDialog) {
+    override fun onDialogPositiveClick(dialog: PurchaseListDialog) {
         val description = dialog.dialog.findViewById<View>(R.id.editText2) as TextView
         presenter.createPurchases(realm, description.text.toString())
     }

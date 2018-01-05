@@ -11,20 +11,21 @@ import com.purchases.mvp.view.*
 import com.purchases.ui.adapter.*
 import io.realm.*
 
-class FavoriteActivity : MvpActivity<PurchasesView, FavoritesPresenter>(), PurchasesView {
+class FavoriteActivity : MvpActivity<PurchaseListView, FavoriteListPresenter>(), PurchaseListView {
 
     lateinit var realm: Realm
     private lateinit var recyclerView: RecyclerView
-     var idPurchases: Long = 0
+    var idPurchases: Long = 0
 
-    override fun createPresenter(): FavoritesPresenter {
-        return FavoritesPresenter()
+    override fun createPresenter(): FavoriteListPresenter {
+        return FavoriteListPresenter()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite)
 
-        idPurchases = intent.getLongExtra("purchases", 0)
+        idPurchases = intent.getLongExtra("purchaseList", 0)
 
         realm = Realm.getDefaultInstance()
         recyclerView = findViewById<View>(R.id.recyclerFavorite) as RecyclerView
@@ -38,7 +39,7 @@ class FavoriteActivity : MvpActivity<PurchasesView, FavoritesPresenter>(), Purch
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = FavoriteAdapter(this, realm.where(Favorites::class.java).findAll()
+        recyclerView.adapter = FavoriteAdapter(this, realm.where(FavoriteList::class.java).findAll()
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))

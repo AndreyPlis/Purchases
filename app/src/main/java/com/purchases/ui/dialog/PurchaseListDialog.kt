@@ -1,22 +1,20 @@
 package com.purchases.ui.dialog
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
-import android.os.Bundle
+import android.app.*
+import android.content.*
+import android.os.*
 import android.support.v4.app.DialogFragment
-import com.purchases.R
+import com.purchases.*
 
 
-class PurchasesDialog : DialogFragment() {
+class PurchaseListDialog : DialogFragment() {
 
     private lateinit var mListener: NoticeDialogListener
 
     interface NoticeDialogListener {
-        fun onDialogPositiveClick(dialog: PurchasesDialog)
+        fun onDialogPositiveClick(dialog: PurchaseListDialog)
 
-        fun onDialogNegativeClick(dialog: PurchasesDialog)
+        fun onDialogNegativeClick(dialog: PurchaseListDialog)
     }
 
 
@@ -30,8 +28,8 @@ class PurchasesDialog : DialogFragment() {
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Новый список продуктов")
         builder.setView(customView)
-        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, id -> mListener.onDialogPositiveClick(this@PurchasesDialog) })
-        builder.setNegativeButton(android.R.string.cancel, DialogInterface.OnClickListener { dialog, id -> mListener.onDialogNegativeClick(this@PurchasesDialog) })
+        builder.setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { dialog, id -> mListener.onDialogPositiveClick(this@PurchaseListDialog) })
+        builder.setNegativeButton(android.R.string.cancel, DialogInterface.OnClickListener { dialog, id -> mListener.onDialogNegativeClick(this@PurchaseListDialog) })
 
         return builder.create()
     }

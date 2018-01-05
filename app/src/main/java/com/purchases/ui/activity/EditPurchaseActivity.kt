@@ -7,7 +7,6 @@ import android.view.*
 import com.hannesdorfmann.mosby3.mvp.*
 import com.purchases.R
 import com.purchases.mvp.model.*
-import com.purchases.mvp.model.Purchases
 import com.purchases.mvp.presenter.*
 import com.purchases.mvp.view.*
 import com.purchases.ui.adapter.*
@@ -30,7 +29,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_purchase)
 
-        idPurchases = intent.getLongExtra("purchases", 0)
+        idPurchases = intent.getLongExtra("purchaseList", 0)
 
         realm = Realm.getDefaultInstance()
         recyclerView = findViewById<View>(R.id.edit_purchase) as RecyclerView
@@ -57,7 +56,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = PurchaseAdapter(this, realm.where(Purchases::class.java).equalTo("id", idPurchases).findFirst()!!.purchase)
+        recyclerView.adapter = PurchaseAdapter(this, realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()!!.purchase)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
@@ -68,10 +67,12 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val goodName = data!!.getStringExtra("goods")
-        val count = data.getFloatExtra("count", 0f)
-        val measure = data.getStringExtra("measure")
-        presenter.createPurchase(realm, goodName, measure, count, idPurchases)
+        if (data != null) {
+            val goodName = data.getStringExtra("goods")
+            val count = data.getFloatExtra("count", 0f)
+            val measure = data.getStringExtra("measure")
+            presenter.createPurchase(realm, goodName, measure, count, idPurchases)
+        }
     }
 
 
@@ -96,7 +97,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
 
     private fun onClickAddFavorite() {
         val intent = Intent(this, FavoriteActivity::class.java)
-        intent.putExtra("purchases", idPurchases)
+        intent.putExtra("purchaseList", idPurchases)
         startActivity(intent)
     }
 

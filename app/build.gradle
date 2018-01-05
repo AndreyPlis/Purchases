@@ -12,7 +12,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.3"
     defaultConfig {
-        applicationId "com.purchases"
+        applicationId "com.purchaseList"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1

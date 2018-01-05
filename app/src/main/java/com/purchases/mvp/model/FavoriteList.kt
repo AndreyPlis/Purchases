@@ -1,16 +1,11 @@
 package com.purchases.mvp.model
 
-import io.realm.RealmList
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+
+import io.realm.*
+import io.realm.annotations.*
 import java.util.*
 
-/**
- * Created by User on 023 23.10.17.
- */
-
-
-open class Purchases(
+open class FavoriteList(
 
         @PrimaryKey var id: Long = 0,
         var name: String = "",
@@ -21,4 +16,5 @@ open class Purchases(
 
 
 ) : RealmObject() {
+    constructor() : this(System.currentTimeMillis())
 }

@@ -11,7 +11,7 @@ import io.realm.*
 /**
  * Created by User on 004 04.01.18.
  */
-class FavoriteAdapter(private val activity: FavoriteActivity, data: OrderedRealmCollection<Favorites>) : RealmRecyclerViewAdapter<Favorites, FavoriteAdapter.MyViewHolder>(data, true) {
+class FavoriteAdapter(private val activity: FavoriteActivity, data: OrderedRealmCollection<FavoriteList>) : RealmRecyclerViewAdapter<FavoriteList, FavoriteAdapter.MyViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -28,7 +28,7 @@ class FavoriteAdapter(private val activity: FavoriteActivity, data: OrderedRealm
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnLongClickListener, View.OnClickListener {
 
         var name: TextView = view.findViewById(R.id.textView)
-        lateinit var purchases: Favorites
+        lateinit var purchases: FavoriteList
 
         init {
             view.setOnLongClickListener(this)

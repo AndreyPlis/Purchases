@@ -1,12 +1,9 @@
 package com.purchases.mvp.presenter
 
-import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
-import com.purchases.mvp.model.Good
-import com.purchases.mvp.model.Measure
-import com.purchases.mvp.model.Purchase
-import com.purchases.mvp.model.Purchases
-import com.purchases.mvp.view.PurchaseView
-import io.realm.Realm
+import com.hannesdorfmann.mosby3.mvp.*
+import com.purchases.mvp.model.*
+import com.purchases.mvp.view.*
+import io.realm.*
 
 class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
     fun createPurchase(realm: Realm, goodName: String, measure: String, count: Float, idPurchases: Long) {
@@ -21,7 +18,7 @@ class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
             purchase.count = count
             purchase.measure = realm.where(Measure::class.java).equalTo("name", measure).findFirst()
 
-            var purchases = realm.where(Purchases::class.java).equalTo("id", idPurchases).findFirst()
+            var purchases = realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()
             purchases!!.purchase.add(purchase)
         }
     }

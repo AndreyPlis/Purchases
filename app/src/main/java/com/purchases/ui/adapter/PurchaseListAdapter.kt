@@ -5,12 +5,12 @@ import android.view.*
 import android.widget.*
 import android.widget.PopupMenu
 import com.purchases.R
-import com.purchases.mvp.model.Purchases
+import com.purchases.mvp.model.*
 import com.purchases.ui.activity.*
 import io.realm.*
 
 
-class PurchasesAdapter(private val activity: PurchasesActivity, data: OrderedRealmCollection<Purchases>) : RealmRecyclerViewAdapter<Purchases, PurchasesAdapter.MyViewHolder>(data, true) {
+class PurchaseListAdapter(private val activity: PurchaseListActivity, data: OrderedRealmCollection<PurchaseList>) : RealmRecyclerViewAdapter<PurchaseList, PurchaseListAdapter.MyViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -20,7 +20,7 @@ class PurchasesAdapter(private val activity: PurchasesActivity, data: OrderedRea
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = data!![position].name
-        holder.purchases = data!![position]
+        holder.purchaseList = data!![position]
 
     }
 
@@ -28,20 +28,20 @@ class PurchasesAdapter(private val activity: PurchasesActivity, data: OrderedRea
         override fun onMenuItemClick(item: MenuItem?): Boolean {
             when (item!!.itemId) {
                 R.id.menuBuy -> {
-                    activity.buyPurchases(purchases)
+                    activity.buyPurchases(purchaseList)
                 }
                 R.id.menuFavorite -> {
-                    activity.addToFavorite(purchases)
+                    activity.addToFavorite(purchaseList)
                 }
                 R.id.menyDelete -> {
-                    activity.presenter.deletePurchases(activity.realm, purchases)
+                    activity.presenter.deletePurchases(activity.realm, purchaseList)
                 }
             }
             return false
         }
 
         var name: TextView = view.findViewById(R.id.textView)
-        lateinit var purchases: Purchases
+        lateinit var purchaseList: PurchaseList
 
         init {
             view.setOnLongClickListener(this)
@@ -58,7 +58,7 @@ class PurchasesAdapter(private val activity: PurchasesActivity, data: OrderedRea
         }
 
         override fun onClick(view: View) {
-            activity.editPurchases(purchases)
+            activity.editPurchases(purchaseList)
         }
     }
 }

@@ -6,13 +6,12 @@ import android.view.*
 import com.hannesdorfmann.mosby3.mvp.*
 import com.purchases.R
 import com.purchases.mvp.model.*
-import com.purchases.mvp.model.Purchases
 import com.purchases.mvp.presenter.*
 import com.purchases.mvp.view.*
 import com.purchases.ui.adapter.*
 import io.realm.*
 
-class BuyPurchaseActivity :  MvpActivity<PurchaseView, PurchasePresenter>(), PurchaseView {
+class BuyPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), PurchaseView {
 
 
     lateinit var realm: Realm
@@ -28,7 +27,7 @@ class BuyPurchaseActivity :  MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buy_purchase)
 
-        idPurchases = intent.getLongExtra("purchases", 0)
+        idPurchases = intent.getLongExtra("purchaseList", 0)
 
         realm = Realm.getDefaultInstance()
         recyclerView = findViewById<View>(R.id.buy_purchase) as RecyclerView
@@ -43,7 +42,7 @@ class BuyPurchaseActivity :  MvpActivity<PurchaseView, PurchasePresenter>(), Pur
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = BuyPurchaseAdapter(this, realm.where(Purchases::class.java).equalTo("id", idPurchases).findFirst()!!.purchase)
+        recyclerView.adapter = BuyPurchaseAdapter(this, realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()!!.purchase)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }

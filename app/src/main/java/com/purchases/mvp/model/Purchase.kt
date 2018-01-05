@@ -1,11 +1,8 @@
 package com.purchases.mvp.model
 
-/**
- * Created by User on 023 23.10.17.
- */
 
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import io.realm.*
+import io.realm.annotations.*
 
 open class Purchase(
 
