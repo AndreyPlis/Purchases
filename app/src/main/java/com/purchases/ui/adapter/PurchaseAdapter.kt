@@ -1,15 +1,13 @@
 package com.purchases.ui.adapter
 
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.support.v7.widget.*
+import android.view.*
+import android.widget.*
 import com.purchases.R
-import com.purchases.mvp.model.Purchase
-import com.purchases.ui.activity.EditPurchaseActivity
-import io.realm.OrderedRealmCollection
-import io.realm.RealmRecyclerViewAdapter
+import com.purchases.mvp.model.*
+import com.purchases.ui.activity.*
+import io.realm.*
+import java.math.*
 
 class PurchaseAdapter(private val activity: EditPurchaseActivity, data: OrderedRealmCollection<Purchase>) : RealmRecyclerViewAdapter<Purchase, PurchaseAdapter.MyViewHolder>(data, true) {
 
@@ -21,7 +19,13 @@ class PurchaseAdapter(private val activity: EditPurchaseActivity, data: OrderedR
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = data!![position].good?.name
-        holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
+        val count = data!![position].count
+        val bd = BigDecimal(count.toDouble())
+        if (bd.scale() == 0) {
+            holder.count.text = (data!![position].count.toInt().toString() + " " + data!![position].measure?.name)
+        } else {
+            holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
+        }
         holder.purchase = data!![position]
 
     }

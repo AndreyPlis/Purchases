@@ -76,9 +76,9 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener, Sear
         val adapter = recyclerView.adapter as SearchAdapter
         val collection: RealmResults<Good>
         if (query.isEmpty()) {
-            collection = realm.where(Good::class.java).findAll()
+            collection = realm.where(Good::class.java).findAll().sort("name")
         } else {
-            collection = realm.where(Good::class.java).contains("name", query).findAll()
+            collection = realm.where(Good::class.java).contains("name", query).findAll().sort("name")
         }
 
         val goods: MutableList<Good> = ArrayList()

@@ -20,7 +20,7 @@ class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
             purchase.measure = realm.where(Measure::class.java).equalTo("name", measure).findFirst()
 
             var purchases = realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()
-            purchases!!.purchase.add(purchase)
+            purchases!!.purchases.add(purchase)
         }
     }
 

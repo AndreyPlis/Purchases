@@ -39,7 +39,7 @@ class FavoriteActivity : MvpActivity<PurchaseListView, FavoriteListPresenter>(),
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = FavoriteAdapter(this, realm.where(FavoriteList::class.java).findAll()
+        recyclerView.adapter = FavoriteAdapter(this, realm.where(FavoriteList::class.java).findAll().sort("name")
         )
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))

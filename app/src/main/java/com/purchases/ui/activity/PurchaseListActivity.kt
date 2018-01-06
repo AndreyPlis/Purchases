@@ -46,7 +46,7 @@ class PurchaseListActivity : MvpActivity<PurchaseListView, PurchaseListPresenter
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = PurchaseListAdapter(this, realm.where(PurchaseList::class.java).findAll())
+        recyclerView.adapter = PurchaseListAdapter(this, realm.where(PurchaseList::class.java).findAll().sort("name"))
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
@@ -81,7 +81,7 @@ class PurchaseListActivity : MvpActivity<PurchaseListView, PurchaseListPresenter
             var favorites = realm.createObject(FavoriteList::class.java, UUID.randomUUID().toString())
             favorites.name = ps!!.name
             val pur: RealmList<Purchase> = RealmList()
-            for (tpurchase in ps.purchase) {
+            for (tpurchase in ps.purchases) {
                 val p = realm.createObject(Purchase::class.java, UUID.randomUUID().toString())
                 p.count = tpurchase.count
                 p.good = tpurchase.good

@@ -19,7 +19,7 @@ class FavoriteListPresenter : MvpBasePresenter<PurchaseListView>() {
                 p.count = purchase.count
                 p.good = purchase.good
                 p.measure = purchase.measure
-                pur.purchase.add(p)
+                pur.purchases.add(p)
             }
         }
     }

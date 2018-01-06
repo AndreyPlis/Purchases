@@ -7,6 +7,7 @@ import com.purchases.R
 import com.purchases.mvp.model.*
 import com.purchases.ui.activity.*
 import io.realm.*
+import java.math.*
 
 
 class BuyPurchaseAdapter(private val activity: BuyPurchaseActivity, data: OrderedRealmCollection<Purchase>) : RealmRecyclerViewAdapter<Purchase, BuyPurchaseAdapter.MyViewHolder>(data, true) {
@@ -19,7 +20,14 @@ class BuyPurchaseAdapter(private val activity: BuyPurchaseActivity, data: Ordere
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.name.text = data!![position].good?.name
-        holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
+
+        val count = data!![position].count
+        val bd = BigDecimal(count.toDouble())
+        if (bd.scale() == 0) {
+            holder.count.text = (data!![position].count.toInt().toString() + " " + data!![position].measure?.name)
+        } else {
+            holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
+        }
         holder.purchase = data!![position]
 
     }

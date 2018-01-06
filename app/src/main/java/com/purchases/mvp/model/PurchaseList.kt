@@ -9,7 +9,7 @@ open class PurchaseList(
 
         @PrimaryKey var id: String = UUID.randomUUID().toString(),
         var name: String = "",
-        var purchase: RealmList<Purchase> = RealmList()
+        var purchases: RealmList<Purchase> = RealmList()
 
 
 ) : RealmObject()

@@ -41,7 +41,9 @@ class BuyPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Purc
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
-        recyclerView.adapter = BuyPurchaseAdapter(this, realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()!!.purchase)
+        val p = realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()!!
+        val ps = p.purchases.sort("good.name")
+        recyclerView.adapter = BuyPurchaseAdapter(this, ps)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
