@@ -59,7 +59,7 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
 
         val p = realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()!!
         val ps = p.purchases.sort("good.name")
-        recyclerView.adapter = PurchaseAdapter(this, ps)
+        recyclerView.adapter = EditPurchaseAdapter(this, ps)
         recyclerView.setHasFixedSize(true)
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }

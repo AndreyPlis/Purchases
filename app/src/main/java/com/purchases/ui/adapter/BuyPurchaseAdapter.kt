@@ -19,16 +19,16 @@ class BuyPurchaseAdapter(private val activity: BuyPurchaseActivity, data: Ordere
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.name.text = data!![position].good?.name
-
-        val count = data!![position].count
+        val purchase = data!![position]
+        holder.name.text = purchase.good?.name
+        val count = purchase.count
         val bd = BigDecimal(count.toDouble())
         if (bd.scale() == 0) {
-            holder.count.text = (data!![position].count.toInt().toString() + " " + data!![position].measure?.name)
+            holder.count.text = (purchase.count.toInt().toString() + " " + purchase.measure?.name)
         } else {
-            holder.count.text = (data!![position].count.toString() + " " + data!![position].measure?.name)
+            holder.count.text = (purchase.count.toString() + " " + purchase.measure?.name)
         }
-        holder.purchase = data!![position]
+        holder.purchase = purchase
 
     }
 

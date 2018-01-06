@@ -4,7 +4,6 @@ import com.hannesdorfmann.mosby3.mvp.*
 import com.purchases.mvp.model.*
 import com.purchases.mvp.view.*
 import io.realm.*
-import java.util.*
 
 class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
     fun createPurchase(realm: Realm, goodName: String, measure: String, count: Float, idPurchases: String) {
@@ -14,13 +13,21 @@ class PurchasePresenter : MvpBasePresenter<PurchaseView>() {
             if (good == null) {
                 good = realm.createObject(Good::class.java, goodName)
             }
-            var purchase = realm.createObject(Purchase::class.java, UUID.randomUUID().toString())
+            val purchase = Purchase()
             purchase.good = good
             purchase.count = count
             purchase.measure = realm.where(Measure::class.java).equalTo("name", measure).findFirst()
 
-            var purchases = realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()
-            purchases!!.purchases.add(purchase)
+            val purchases = realm.where(PurchaseList::class.java).equalTo("id", idPurchases).findFirst()
+            val ps = purchases!!.purchases
+            for (purchase2 in ps) {
+                if (purchase2.good == purchase.good && purchase2.measure == purchase.measure) {
+                    purchase2.count += purchase.count
+                    return@executeTransactionAsync
+                }
+            }
+            realm.copyToRealm(purchase)
+            ps.add(purchase)
         }
     }
 
