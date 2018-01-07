@@ -8,11 +8,13 @@ apply plugin: 'realm-android'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'io.fabric'
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.3"
     defaultConfig {
-        applicationId "com.purchaseList"
+        applicationId "com.purchases"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -43,8 +45,14 @@ dependencies {
     compile 'com.hannesdorfmann.mosby3:mvi:3.1.0'
     compile 'com.hannesdorfmann.mosby3:mvp:3.1.0'
     compile 'com.hannesdorfmann.mosby3:viewstate:3.1.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+        transitive = true
+    }
+    compile 'com.google.firebase:firebase-core:11.8.0'
 }
 
 kapt {
     generateStubs = true
 }
+
+apply plugin: 'com.google.gms.google-services'
