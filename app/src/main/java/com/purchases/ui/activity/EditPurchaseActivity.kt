@@ -48,11 +48,6 @@ class EditPurchaseActivity : MvpActivity<PurchaseView, PurchasePresenter>(), Pur
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-
-    }
-
     private fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = mLayoutManager
