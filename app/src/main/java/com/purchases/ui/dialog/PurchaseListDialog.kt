@@ -24,7 +24,7 @@ class PurchaseListDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val customView = activity.layoutInflater.inflate(R.layout.dialog_purchases, null)
+        val customView = activity!!.layoutInflater.inflate(R.layout.dialog_purchases, null)
         val builder = AlertDialog.Builder(activity)
         builder.setTitle("Новый список продуктов")
         builder.setView(customView)

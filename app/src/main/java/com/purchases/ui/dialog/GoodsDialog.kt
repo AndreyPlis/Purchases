@@ -38,7 +38,7 @@ class GoodsDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val customView = activity.layoutInflater.inflate(R.layout.dialog_goods, null)
+        val customView = activity!!.layoutInflater.inflate(R.layout.dialog_goods, null)
         val picker = customView.findViewById<View>(R.id.numberPicker) as NumberPicker
         val text = customView.findViewById<View>(R.id.editText3) as EditText
         val builder = AlertDialog.Builder(activity)
